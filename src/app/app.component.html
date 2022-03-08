@@ -26,6 +26,9 @@
         id="searchName"
         class="form-control mr-sm-2"
         placeholder="Search employees..."
+        (ngModelChange)="searchEmployee(key.value)"
+        #key="ngModel"
+        ngModel
         required
       />
     </form>
@@ -107,7 +110,6 @@
               <label for="name">Name</label>
               <input
                 type="text"
-                ngModel
                 name="name"
                 class="form-control"
                 id="name"
@@ -211,17 +213,17 @@
           </button>
         </div>
         <div class="modal-body">
-          <form #updateForm="ngForm" (ngSubmit)="updateEmployee(updateForm)">
+          <form #editForm="ngForm">
             <div class="form-group">
               <label for="name">Name</label>
               <input
                 type="text"
-                ngModel
                 name="name"
                 class="form-control"
                 id="name"
                 aria-describedby="emailHelp"
-                placeholder="Name"
+                placeholder="name"
+                ngModel="{{ editEmployee?.name }}"
               />
             </div>
             <input
@@ -230,6 +232,7 @@
               class="form-control"
               id="id"
               placeholder="Email"
+              ngModel="{{ editEmployee?.id }}"
             />
             <input
               type="hidden"
@@ -237,50 +240,51 @@
               class="form-control"
               id="userCode"
               placeholder="Email"
+              ngModel="{{ editEmployee?.employeeCode }}"
             />
             <div class="form-group">
               <label for="email">Email Address</label>
               <input
                 type="email"
-                ngModel
                 name="email"
                 class="form-control"
                 id="email"
                 placeholder="Email"
+                ngModel="{{ editEmployee?.email }}"
               />
             </div>
             <div class="form-group">
               <label for="phone">Job title</label>
               <input
                 type="text"
-                ngModel
                 name="jobTitle"
                 class="form-control"
                 id="jobTitle"
                 placeholder="Job title"
+                ngModel="{{ editEmployee?.jobTitle }}"
               />
             </div>
             <div class="form-group">
               <label for="phone">Phone</label>
               <input
                 type="text"
-                ngModel
                 name="phone"
                 class="form-control"
                 id="phone"
                 name="phone"
                 placeholder="Phone"
+                ngModel="{{ editEmployee?.phone }}"
               />
             </div>
             <div class="form-group">
               <label for="phone">Image URL</label>
               <input
                 type="text"
-                ngModel
                 name="imageUrl"
                 class="form-control"
                 id="imageUrl"
                 placeholder="Image URL"
+                ngModel="{{ editEmployee?.imageUrl }}"
               />
             </div>
             <div class="modal-footer">
@@ -295,8 +299,7 @@
               <button
                 data-dismiss="modal"
                 class="btn btn-primary"
-                [disabled]="updateForm.invalid"
-                type="submit"
+                (click)="updateEmployee(editForm.value)"
               >
                 Save changes
               </button>
@@ -325,6 +328,7 @@
             class="close"
             data-dismiss="modal"
             aria-label="Close"
+            id="deleteClose"
           >
             <span aria-hidden="true">&times;</span>
           </button>
@@ -339,7 +343,13 @@
             >
               No
             </button>
-            <button class="btn btn-danger" data-dismiss="modal">Yes</button>
+            <button
+              (click)="deleteEmployee(deletedEmployee)"
+              class="btn btn-danger"
+              data-dismiss="modal"
+            >
+              Yes
+            </button>
           </div>
         </div>
       </div>
